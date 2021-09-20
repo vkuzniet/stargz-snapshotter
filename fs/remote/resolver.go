@@ -368,6 +368,7 @@ func (f *fetcher) fetch(ctx context.Context, rs []region, retry bool, opts *opti
 	start := time.Now()
 	res, err := tr.RoundTrip(req) // NOT DefaultClient; don't want redirects
 	commonmetrics.MeasureLatency(commonmetrics.RemoteRegistryGet, f.digest, start)
+	commonmetrics.IncOperationCount("s3_get_request_count", f.digest) // this also corresponds to the number of KMS Decrypt calls
 	if err != nil {
 		return nil, err
 	}
