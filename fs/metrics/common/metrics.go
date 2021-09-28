@@ -135,12 +135,20 @@ func Register() {
 // If you want this to be layer agnostic, just pass the digest from empty string, e.g.
 // layerDigest := digest.FromString("")
 func MeasureLatency(operation string, layer digest.Digest, start time.Time) {
-	operationLatency.WithLabelValues(operation, layer.String()).Observe(sinceInMilliseconds(start))
+	//operationLatency.WithLabelValues(operation, layer.String()).Observe(sinceInMilliseconds(start))
+}
+
+func MeasureLatencyNoLayer(operation string, start time.Time) {
+	operationLatency.WithLabelValues(operation, "").Observe(sinceInMilliseconds(start))
 }
 
 // IncOperationCount wraps the labels attachment as well as calling Inc into a single method.
 func IncOperationCount(operation string, layer digest.Digest) {
 	operationCount.WithLabelValues(operation, layer.String()).Inc()
+}
+
+func IncOperation(operation string) {
+	operationCount.WithLabelValues(operation, "").Inc()
 }
 
 // AddBytesCount wraps the labels attachment as well as calling Add into a single method.

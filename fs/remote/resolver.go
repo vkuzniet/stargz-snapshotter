@@ -367,8 +367,8 @@ func (f *fetcher) fetch(ctx context.Context, rs []region, retry bool, opts *opti
 	// Recording the roundtrip latency for remote registry GET operation.
 	start := time.Now()
 	res, err := tr.RoundTrip(req) // NOT DefaultClient; don't want redirects
-	commonmetrics.MeasureLatency(commonmetrics.RemoteRegistryGet, f.digest, start)
-	commonmetrics.IncOperationCount("s3_get_request_count", f.digest) // this also corresponds to the number of KMS Decrypt calls
+	commonmetrics.MeasureLatencyNoLayer(commonmetrics.RemoteRegistryGet, start)
+	commonmetrics.IncOperation("s3_get_request_count")
 	if err != nil {
 		return nil, err
 	}
