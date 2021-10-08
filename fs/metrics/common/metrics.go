@@ -138,8 +138,8 @@ func MeasureLatency(operation string, layer digest.Digest, start time.Time) {
 	//operationLatency.WithLabelValues(operation, layer.String()).Observe(sinceInMilliseconds(start))
 }
 
-func MeasureLatencyNoLayer(operation string, start time.Time) {
-	operationLatency.WithLabelValues(operation, "").Observe(sinceInMilliseconds(start))
+func MeasureLatencyNoLayer(operation string, interval time.Duration) {
+	operationLatency.WithLabelValues(operation, "").Observe(float64(interval.Nanoseconds()) / 1e6)
 }
 
 // IncOperationCount wraps the labels attachment as well as calling Inc into a single method.
