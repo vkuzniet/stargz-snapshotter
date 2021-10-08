@@ -365,9 +365,9 @@ func (f *fetcher) fetch(ctx context.Context, rs []region, retry bool, opts *opti
 	req.Close = false
 
 	// Recording the roundtrip latency for remote registry GET operation.
-	start := time.Now()
+	//start := time.Now()
 	res, err := tr.RoundTrip(req) // NOT DefaultClient; don't want redirects
-	commonmetrics.MeasureLatencyNoLayer(commonmetrics.RemoteRegistryGet, start)
+	// commonmetrics.MeasureLatencyNoLayer(commonmetrics.RemoteRegistryGet, start)
 	commonmetrics.IncOperation("s3_get_request_count")
 	if err != nil {
 		return nil, err

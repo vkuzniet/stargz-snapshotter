@@ -23,6 +23,7 @@
 package remote
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"io"
@@ -35,6 +36,7 @@ import (
 
 	"github.com/containerd/containerd/reference"
 	"github.com/containerd/stargz-snapshotter/cache"
+	commonmetrics "github.com/containerd/stargz-snapshotter/fs/metrics/common"
 	"github.com/containerd/stargz-snapshotter/fs/source"
 	ocispec "github.com/opencontainers/image-spec/specs-go/v1"
 	"github.com/pkg/errors"
@@ -329,7 +331,9 @@ func (b *blob) fetchRegions(allData map[region]io.Writer, fetched map[region]boo
 
 	ctx, cancel := context.WithTimeout(context.Background(), b.fetchTimeout)
 	defer cancel()
+	fetchStart := time.Now()
 	mr, err := fr.fetch(ctx, req, true, opts)
+	remoteRegistryGetDuration := time.Now().Sub(fetchStart)
 
 	if err != nil {
 		return err
@@ -366,7 +370,16 @@ func (b *blob) fetchRegions(allData map[region]io.Writer, fetched map[region]boo
 			}
 
 			// Copy the target chunk
-			if _, err := io.CopyN(w, p, chunk.size()); err != nil {
+			f := make([]byte, chunk.size())
+			memoryByteWriter := newBytesWriter(f, 0)
+			var written int64
+			t0 := time.Now()
+			if written, err = io.CopyN(memoryByteWriter, p, chunk.size()); err != nil {
+				return err
+			}
+			remoteRegistryGetDuration += time.Now().Sub(t0)
+			r := bytes.NewReader(f)
+			if _, err := io.CopyN(w, r, written); err != nil {
 				cw.Abort()
 				return err
 			}
@@ -385,6 +398,8 @@ func (b *blob) fetchRegions(allData map[region]io.Writer, fetched map[region]boo
 			return errors.Wrapf(err, "failed to get chunks")
 		}
 	}
+
+	commonmetrics.MeasureLatencyNoLayer(commonmetrics.RemoteRegistryGet, remoteRegistryGetDuration)
 
 	// Check all chunks are fetched
 	var unfetched []region
