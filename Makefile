@@ -27,7 +27,7 @@ CMD=containerd-stargz-grpc ctr-remote stargz-store
 
 CMD_BINARIES=$(addprefix $(PREFIX),$(CMD))
 
-.PHONY: all build check install-check-tools install uninstall clean test test-root test-all integration test-optimize benchmark test-kind test-cri-containerd test-cri-o test-criauth generate validate-generated test-k3s test-k3s-argo-workflow vendor
+.PHONY: all build check install-check-tools install uninstall clean test test-root test-all integration test-optimize benchmark fs-bench test-kind test-cri-containerd test-cri-o test-criauth generate validate-generated test-k3s test-k3s-argo-workflow vendor
 
 all: build
 
@@ -118,3 +118,6 @@ test-k3s:
 
 test-k3s-argo-workflow:
 	@./script/k3s-argo-workflow/run.sh
+
+fs-bench:
+	@./script/fs-bench/test.sh

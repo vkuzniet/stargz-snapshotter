@@ -257,3 +257,22 @@ COPY ./script/config/ /
 RUN /clone3-workaround apt-get update -y && /clone3-workaround apt-get install --no-install-recommends -y fuse && \
     systemctl enable stargz-snapshotter
 ENTRYPOINT [ "/usr/local/bin/entrypoint", "/sbin/init" ]
+
+
+# image to be used for fio testing
+FROM snapshotter-base as fs-bench
+
+# basic tools
+COPY ./script/fs-bench/tools /tmp/tools
+
+# RUN apt-get update -y && \
+#     apt-get install --no-install-recommends -y libbtrfs-dev libseccomp-dev fuse python \
+#         apt-transport-https software-properties-common && \
+#     curl -Lo gnuplot-5.2.8.tar.gz \
+#     https://sourceforge.net/projects/gnuplot/files/gnuplot/5.2.8/gnuplot-5.2.8.tar.gz/download && \
+#     tar xf gnuplot-5.2.8.tar.gz && \
+#     cd gnuplot-5.2.8 && \
+#     ./configure && make && make install && \
+#     cd /tmp/tools && \
+#     GO111MODULE=on go build -o "/usr/local/bin/process" "./process/main.go" && \
+#     GO111MODULE=on go build -o "/usr/local/bin/scrape" "./scrape/main.go"
