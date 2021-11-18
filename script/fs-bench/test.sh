@@ -66,8 +66,11 @@ volumes:
 EOF
 
 echo "Setup benchmark environment..."
-docker-compose -f "${DOCKER_COMPOSE_YAML}" build ${DOCKER_BUILD_ARGS:-} "${BENCHMARKING_NODE}"
-docker-compose -f "${DOCKER_COMPOSE_YAML}" up -d --force-recreate
+docker-compose -f "${DOCKER_COMPOSE_YAML}" build ${DOCKER_BUILD_ARGS:-} \
+                          "${BENCHMARKING_NODE}" && \
+#docker-compose -f "${DOCKER_COMPOSE_YAML}" build ${DOCKER_BUILD_ARGS:-} "${BENCHMARKING_NODE}"
+docker-compose -f "${DOCKER_COMPOSE_YAML}" up --abort-on-container-exit
+#docker-compose -f "${DOCKER_COMPOSE_YAML}" up -d --force-recreate
 
 echo "Benchmarking..."
 docker exec -i "${BENCHMARKING_CONTAINER}" script/fs-bench/work/run.sh
