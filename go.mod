@@ -33,7 +33,7 @@ require (
 	k8s.io/api v0.22.4
 	k8s.io/apimachinery v0.22.4
 	k8s.io/client-go v0.22.4
-	k8s.io/cri-api v0.24.0-alpha.0
+	k8s.io/cri-api v0.24.0-alpha.1
 )
 
 replace (
