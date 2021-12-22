@@ -234,7 +234,7 @@ func (o *snapshotter) Prepare(ctx context.Context, key, parent string, opts ...s
 
 	// just to test the hypothesis that if we send null as the error to container runtime
 	// it will pull and decompress the image on its own
-	return nil, nil
+	//return nil, nil
 
 	// Try to prepare the remote snapshot. If succeeded, we commit the snapshot now
 	// and return ErrAlreadyExists.
@@ -244,7 +244,7 @@ func (o *snapshotter) Prepare(ctx context.Context, key, parent string, opts ...s
 			return nil, err
 		}
 	}
-	if target, ok := base.Labels[targetSnapshotLabel]; ok {
+	if _, ok := base.Labels[targetSnapshotLabel]; ok {
 		// NOTE: If passed labels include a target of the remote snapshot, `Prepare`
 		//       must log whether this method succeeded to prepare that remote snapshot
 		//       or not, using the key `remoteSnapshotLogKey` defined in the above. This
@@ -253,7 +253,7 @@ func (o *snapshotter) Prepare(ctx context.Context, key, parent string, opts ...s
 		if err := o.prepareRemoteSnapshot(lCtx, key, base.Labels); err != nil {
 			log.G(lCtx).WithField(remoteSnapshotLogKey, prepareFailed).
 				WithError(err).Warn("failed to prepare remote snapshot")
-		} else {
+		} /*else {
 			base.Labels[remoteLabel] = remoteLabelVal // Mark this snapshot as remote
 			err := o.commit(ctx, true, target, key, append(opts, snapshots.WithLabels(base.Labels))...)
 			if err == nil || errdefs.IsAlreadyExists(err) {
@@ -266,7 +266,7 @@ func (o *snapshotter) Prepare(ctx context.Context, key, parent string, opts ...s
 			// Don't fallback here (= prohibit to use this key again) because the FileSystem
 			// possible has done some work on this "upper" directory.
 			return nil, err
-		}
+		}*/
 	}
 	return o.mounts(ctx, s, parent)
 }
