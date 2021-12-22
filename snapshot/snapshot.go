@@ -227,6 +227,10 @@ func (o *snapshotter) Usage(ctx context.Context, key string) (snapshots.Usage, e
 }
 
 func (o *snapshotter) Prepare(ctx context.Context, key, parent string, opts ...snapshots.Opt) ([]mount.Mount, error) {
+	// just to test the hypothesis that if we send null as the error to container runtime
+	// it will pull and decompress the image on its own
+	return nil, nil
+
 	s, err := o.createSnapshot(ctx, snapshots.KindActive, key, parent, opts)
 	if err != nil {
 		return nil, err
