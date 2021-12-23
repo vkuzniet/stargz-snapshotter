@@ -223,6 +223,7 @@ func (fs *filesystem) Mount(ctx context.Context, mountpoint string, labels map[s
 				fs.prefetch(ctx, l, defaultPrefetchSize, start)
 				return
 			}
+			err = fmt.Errorf("test!!!") // trying to skip layers here, so they are fully downloaded
 			rErr = errors.Wrapf(rErr, "failed to resolve layer %q from %q: %v", s.Target.Digest, s.Name, err)
 		}
 		errChan <- rErr
