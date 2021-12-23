@@ -232,7 +232,7 @@ func (o *snapshotter) Prepare(ctx context.Context, key, parent string, opts ...s
 		return nil, err
 	}
 
-	log.G(ctx).Info("vkuzniet: snapshot.Prepare(): pid = %v, key= %v, parent=%v", os.Getpid(), key, parent)
+	log.G(ctx).Info(fmt.Sprintf("vkuzniet: snapshot.Prepare(): pid = %v, key= %v, parent=%v", os.Getpid(), key, parent))
 
 	// just to test the hypothesis that if we send null as the error to container runtime
 	// it will pull and decompress the image on its own
@@ -311,6 +311,7 @@ func (o *snapshotter) commit(ctx context.Context, isRemote bool, name, key strin
 
 	defer func() {
 		if err != nil {
+			log.G(ctx).Info("vkuzniet: snapshot.commit() rolling back for pid=%v, name=%v, key=%v", os.Getpid(), name, key)
 			if rerr := t.Rollback(); rerr != nil {
 				log.G(ctx).WithError(rerr).Warn("failed to rollback transaction")
 			}
@@ -477,6 +478,8 @@ func (o *snapshotter) cleanupSnapshotDirectory(ctx context.Context, dir string) 
 }
 
 func (o *snapshotter) createSnapshot(ctx context.Context, kind snapshots.Kind, key, parent string, opts []snapshots.Opt) (_ storage.Snapshot, err error) {
+	log.G(ctx).Info(fmt.Sprintf("vkuzniet: snapshot.createSnapshot(): pid = %v, key= %v, parent=%v", os.Getpid(), key, parent))
+
 	ctx, t, err := o.ms.TransactionContext(ctx, true)
 	if err != nil {
 		return storage.Snapshot{}, err
