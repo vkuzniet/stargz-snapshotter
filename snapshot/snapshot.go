@@ -270,6 +270,8 @@ func (o *snapshotter) Prepare(ctx context.Context, key, parent string, opts ...s
 			return nil, err
 		}
 	}
+
+	log.G(ctx).Info(fmt.Sprintf("vkuzniet: snapshot.Prepare(): starting mounts pid = %v, key= %v, parent=%v", os.Getpid(), key, parent))
 	return o.mounts(ctx, s, parent)
 }
 
