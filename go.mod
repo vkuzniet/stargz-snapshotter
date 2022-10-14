@@ -25,12 +25,12 @@ require (
 	github.com/prometheus/client_golang v1.11.0
 	github.com/rs/xid v1.3.0
 	github.com/sirupsen/logrus v1.8.1
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
-	golang.org/x/sys v0.0.0-20211025201205-69cdffdb9359
+	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4
+	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f
 	google.golang.org/grpc v1.42.0
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	k8s.io/api v0.23.1
-	k8s.io/apimachinery v0.23.1
+	k8s.io/apimachinery v0.25.3
 	k8s.io/client-go v0.23.1
 	k8s.io/cri-api v0.24.0-alpha.1
 )
