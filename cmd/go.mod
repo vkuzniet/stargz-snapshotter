@@ -12,6 +12,7 @@ require (
 	github.com/coreos/go-systemd/v22 v22.3.2
 	github.com/docker/go-metrics v0.0.1
 	github.com/goccy/go-json v0.7.10
+	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/ipfs/go-ipfs-http-client v0.1.0
 	github.com/ipfs/interface-go-ipfs-core v0.5.2
@@ -22,12 +23,15 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/rs/xid v1.3.0
 	github.com/sirupsen/logrus v1.8.1
+	github.com/stretchr/testify v1.8.0 // indirect
 	github.com/urfave/cli v1.22.5
 	go.etcd.io/bbolt v1.3.6
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
-	golang.org/x/sys v0.0.0-20211025201205-69cdffdb9359
-	google.golang.org/grpc v1.42.0
-	k8s.io/cri-api v0.24.0-alpha.1
+	golang.org/x/net v0.1.1-0.20221027164007-c63010009c80 // indirect
+	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4
+	golang.org/x/sys v0.1.0
+	google.golang.org/genproto v0.0.0-20220502173005-c8bf987b8c21 // indirect
+	google.golang.org/grpc v1.49.0
+	google.golang.org/protobuf v1.28.1 // indirect
 )
 
 replace (
