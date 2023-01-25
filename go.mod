@@ -25,9 +25,9 @@ require (
 	github.com/prometheus/client_golang v1.11.0
 	github.com/rs/xid v1.3.0
 	github.com/sirupsen/logrus v1.8.1
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
-	golang.org/x/sys v0.0.0-20211025201205-69cdffdb9359
-	google.golang.org/grpc v1.42.0
+	golang.org/x/sync v0.1.0
+	golang.org/x/sys v0.3.0
+	google.golang.org/grpc v1.52.1
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	k8s.io/api v0.23.1
 	k8s.io/apimachinery v0.23.1
